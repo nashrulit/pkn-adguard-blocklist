@@ -1,4 +1,3 @@
-```python
 import re
 import urllib.request
 from pathlib import Path
@@ -9,6 +8,7 @@ SOURCE_URL = (
 )
 
 OUTPUT_FILE = Path("domains.txt")
+
 
 def main():
     print("Downloading AdGuard DNS Filter...")
@@ -26,11 +26,9 @@ def main():
     for line in content.splitlines():
         line = line.strip()
 
-        # Skip comments and empty lines
         if not line or line.startswith(("!", "#", "@@")):
             continue
 
-        # Convert standard AdGuard domain rules
         match = re.fullmatch(
             r"\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^",
             line
@@ -38,8 +36,6 @@ def main():
 
         if match:
             domain = match.group(1).lower().rstrip(".")
-
-            # Validate domain labels
             labels = domain.split(".")
 
             if all(
@@ -67,6 +63,6 @@ def main():
     print(f"Output: {OUTPUT_FILE}")
     print("Conversion completed.")
 
+
 if __name__ == "__main__":
     main()
-```
